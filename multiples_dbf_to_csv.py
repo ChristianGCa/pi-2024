@@ -28,4 +28,4 @@ def convert_all_dbf_to_csv(folder_path):
     return csv_paths
 
 # Chamando a função e passando o caminho da pasta contendo os arquivos .dbf
-csv_files = convert_all_dbf_to_csv('/caminho/da/pasta/desejada')
+csv_files = convert_all_dbf_to_csv('/mnt/78DDB1555FC1C17E/BIGDATA/ProjetoIntegrador-PSICOSSOCIAL/DBF')
