@@ -15,7 +15,7 @@ CSV_FILE_CID = "/home/christian/Documentos/BIGDATA/ProjetoIntegrador-PSICOSSOCIA
 COLUMNS_CID = ['CD_COD', 'CD_DESCR']
 
 # CID da doença a ser consultada
-CID_DOENCA = 'F20'
+CID_DOENCA = 'F10'
 
 try:
     # Carregar os arquivos
