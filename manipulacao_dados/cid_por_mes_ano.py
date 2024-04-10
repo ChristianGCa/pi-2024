@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 # Localização dos arquivos CSV PRINCIPAIS e as colunas desejadas
-CSV_PATCH = "/home/christian/Documentos/BIGDATA/ProjetoIntegrador-PSICOSSOCIAL/DADOS/CSV-teste"
+CSV_PATCH = "/home/christian/Documentos/BIGDATA/ProjetoIntegrador-PSICOSSOCIAL/DADOS/CSV"
 COLUMNS = ['UFMUN', 'CIDPRI']
 
 # Localização dos arquivos arquivos CSV AUXILIARES e as colunas desejadas
@@ -16,10 +16,10 @@ CSV_FILE_CID = "/home/christian/Documentos/BIGDATA/ProjetoIntegrador-PSICOSSOCIA
 COLUMNS_CID = ['CD_COD', 'CD_DESCR']
 
 # CID da doença a ser consultada (Coluna CIDPRI)
-CID_DOENCA = 'F200'
+CID_DOENCA = 'G20'
 
 # Código do município a ser consultado (Coluna UFMUN). Digite 0 para TODOS.
-COD_MUNICIPIO = 0
+COD_MUNICIPIO = 431020
 
 print('\nIniciando...\n')
 
@@ -36,6 +36,10 @@ except FileNotFoundError as e:
 
 except IndexError as i:
     print("CID especificado não encontrado. Erro: ",i)
+    exit()
+
+except Exception as e:
+    print("Erro inesperado. Erro: ", e)
     exit()
 
 dfs = []
@@ -69,6 +73,10 @@ try:
 
 except IndexError as i:
     print("ERRO: Município especificado não foi encontrado.")
+    exit()
+
+except Exception as e:
+    print("Erro inesperado. Erro: ", e)
     exit()
 
 try:
@@ -110,3 +118,6 @@ try:
 
 except IndexError as i:
     print("Nenhum registro de CID encontrado. Erro: ",i)
+
+except Exception as e:
+    print("Erro inesperado. Erro: ", e)

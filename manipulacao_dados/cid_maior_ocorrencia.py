@@ -33,6 +33,8 @@ try:
     merged_df = merged_df[['DS_NOME', 'IDADEPAC', 'CIDPRI', 'CD_DESCR']]
     merged_df.columns = ['Municipio', 'Idade', 'CID', 'Doenca']
 
+    csv = merged_df.to_csv('/home/christian/Documentos/BIGDATA/ProjetoIntegrador-PSICOSSOCIAL/DADOS/CSV/teste.csv', index=False)
+
     # Filtrar o DataFrame para incluir apenas os casos da doença especificada
     casos_cid = merged_df[merged_df['CID'] == CID_DOENCA]
 
