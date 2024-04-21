@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 # Localização dos arquivos CSV PRINCIPAIS e as colunas desejadas
-CSV_PATCH = "/home/christian/Documentos/BIGDATA/ProjetoIntegrador-PSICOSSOCIAL/DADOS/CSV"
+CSV_PATCH = "/home/christian/Documentos/BIGDATA/ProjetoIntegrador-PSICOSSOCIAL/DADOS/CSV-teste"
 COLUMNS = ['UFMUN', 'CIDPRI']
 
 # Localização dos arquivos arquivos CSV AUXILIARES e as colunas desejadas
@@ -46,7 +46,7 @@ top_doencas = top_doencas.sort_values(by='Count', ascending=True)
 # Ajustar o tamanho da figura e o layout para garantir que as doenças apareçam por completo
 plt.figure(figsize=(15, 10))
 bars = plt.barh(top_doencas['Doenca'], top_doencas['Count'])
-plt.title(f'Top 10 Doenças em {filtered_df["Municipio"].iloc[0]} por número de ocorrências')
+plt.title(f'Top Doenças em {filtered_df["Municipio"].iloc[0]} por número de ocorrências')
 plt.xlabel('Número de ocorrências')
 
 # Adicionar as anotações dos valores nas barras

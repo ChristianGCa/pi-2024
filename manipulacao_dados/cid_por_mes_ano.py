@@ -16,31 +16,19 @@ CSV_FILE_CID = "/home/christian/Documentos/BIGDATA/ProjetoIntegrador-PSICOSSOCIA
 COLUMNS_CID = ['CD_COD', 'CD_DESCR']
 
 # CID da doença a ser consultada (Coluna CIDPRI)
-CID_DOENCA = 'G20'
+CID_DOENCA = 'F10'
 
 # Código do município a ser consultado (Coluna UFMUN). Digite 0 para TODOS.
 COD_MUNICIPIO = 431020
 
 print('\nIniciando...\n')
 
-try:
-    files = os.listdir(CSV_PATCH)
-    csv_files = [file for file in files if file.endswith('.csv')]
 
-    municip_df = pd.read_csv(CSV_FILE_MUNICIPIO, usecols=COLUMNS_MUNICIPIO, encoding='ISO-8859-1')
-    cid_df = pd.read_csv(CSV_FILE_CID, usecols=COLUMNS_CID, encoding='ISO-8859-1')
+files = os.listdir(CSV_PATCH)
+csv_files = [file for file in files if file.endswith('.csv')]
 
-except FileNotFoundError as e:
-    print("Nenhum arquivo encontrado. Erro: ", e)
-    exit()
-
-except IndexError as i:
-    print("CID especificado não encontrado. Erro: ",i)
-    exit()
-
-except Exception as e:
-    print("Erro inesperado. Erro: ", e)
-    exit()
+municip_df = pd.read_csv(CSV_FILE_MUNICIPIO, usecols=COLUMNS_MUNICIPIO, encoding='ISO-8859-1')
+cid_df = pd.read_csv(CSV_FILE_CID, usecols=COLUMNS_CID, encoding='ISO-8859-1')
 
 dfs = []
 for arquivo in csv_files:
@@ -79,45 +67,40 @@ except Exception as e:
     print("Erro inesperado. Erro: ", e)
     exit()
 
-try:
-    nome_doenca = cid_df[cid_df['CD_COD'] == CID_DOENCA]['CD_DESCR'].iloc[0]
+df_filtrado = []
 
-    # ///////////////////////////////  |
-    # // CID por ANOS em MUNICIPIO //  |
-    # ///////////////////////////////  V
+df_grouped = filtered_df.groupby(['Ano', 'Mês']).size().reset_index(name='Ocorrências')
 
-    timeline_por_ano = filtered_df.groupby('Ano').size()
-    plt.figure(figsize=(10, 6))
-    timeline_por_ano.plot(marker='o', linestyle='-', color='black')
-    plt.title(f'Ocorrências de {nome_doenca} por Ano em {nome_municipio}')
-    plt.xlabel('Ano')
-    plt.ylabel('Ocorrências')
-    plt.xticks(timeline_por_ano.index, timeline_por_ano.index)
-    plt.tight_layout()
-    plt.show()
+# Optional: If you want to fill missing months with 0 occurrences
+# Generate a MultiIndex with all combinations of year and month
+index = pd.MultiIndex.from_product([range(df_grouped['Ano'].min(), df_grouped['Ano'].max() + 1), range(1, 13)], names=['Ano', 'Mês'])
+# Reindex with the MultiIndex and fill missing values with 0
+df_grouped = df_grouped.set_index(['Ano', 'Mês']).reindex(index, fill_value=0).reset_index()
 
-    # ///////////////////////////////////////  |
-    # // CID por MESES e ANOS em MUNICIPIO //  |
-    # ///////////////////////////////////////  V
+# Pivot the DataFrame to have each year's occurrences in separate columns
+df_pivot = df_grouped.pivot(index='Mês', columns='Ano', values='Ocorrências')
 
-    timeline = filtered_df.groupby(['Ano', 'Mês']).size()
-    plt.figure(figsize=(10, 6))
-    cores = ['blue', 'green', 'red', 'orange', 'purple', 'yellow', 'black', 'gray', 'pink', 'brown', 'olive', 'cyan']
+# Plotting the graph with one line for each year
+plt.figure(figsize=(12, 6))  # Set the figure size
 
-    # Mostrando o gráfico com números em cada ponto
-    for i, (ano, data) in enumerate(timeline.groupby('Ano')):
-        data.plot(marker='o', linestyle='-', color=cores[i], label=ano)
+# Plot each column (year) separately
+for ano in df_pivot.columns:
+    plt.plot(df_pivot.index, df_pivot[ano], marker='o', linestyle='-', label=f'Ano {ano}')
 
-    plt.title(f'Ocorrências de {nome_doenca} por Mês em {nome_municipio}')
-    plt.xlabel('Mês')
-    plt.ylabel('Ocorrências')
-    plt.xticks(range(0, 12), ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'])
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
+# Set the labels and title
+plt.xlabel('Mês')
+plt.ylabel('Número de Ocorrências')
+plt.title(f'Ocorrências da doença CID {CID_DOENCA} em {nome_municipio}')
 
-except IndexError as i:
-    print("Nenhum registro de CID encontrado. Erro: ",i)
+# Set x-axis labels to show months
+plt.xticks(range(1, 13), [f'{mes:02d}' for mes in range(1, 13)])
 
-except Exception as e:
-    print("Erro inesperado. Erro: ", e)
+# Show legend
+plt.legend()
+
+# Show grid
+plt.grid(True)
+
+# Show plot
+plt.tight_layout()
+plt.show()
