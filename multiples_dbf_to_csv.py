@@ -3,7 +3,7 @@ from dbfread import DBF
 import glob
 import os
 
-# Função que converte .dbf em .csv
+# Função que converte .dbf em .csv na mesma pasta
 def convert_all_dbf_to_csv(folder_path):
 
     # Localizando todos os arquivos .dbf no caminho da pasta especificada
@@ -28,4 +28,4 @@ def convert_all_dbf_to_csv(folder_path):
     return csv_paths
 
 # Chamando a função e passando o caminho da pasta contendo os arquivos .dbf
-csv_files = convert_all_dbf_to_csv('/mnt/78DDB1555FC1C17E/BIGDATA/ProjetoIntegrador-PSICOSSOCIAL/DBF')
+csv_files = convert_all_dbf_to_csv('/home/christian/Documentos/BIGDATA/AR - APAC de radioterapia/DADOS/DBF')

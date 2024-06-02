@@ -19,10 +19,9 @@ COLUMNS_CID = ['CD_COD', 'CD_DESCR']
 CID_DOENCA = 'F10'
 
 # Código do município a ser consultado (Coluna UFMUN). Digite 0 para TODOS.
-COD_MUNICIPIO = 431020
+COD_MUNICIPIO = 0
 
 print('\nIniciando...\n')
-
 
 files = os.listdir(CSV_PATCH)
 csv_files = [file for file in files if file.endswith('.csv')]
@@ -84,8 +83,10 @@ df_pivot = df_grouped.pivot(index='Mês', columns='Ano', values='Ocorrências')
 plt.figure(figsize=(12, 6))  # Set the figure size
 
 # Plot each column (year) separately
+
+cores = ['red', 'green', 'blue', 'orange', 'purple', 'brown', 'pink', 'gray', 'olive', 'cyan', 'magenta', 'yellow']
 for ano in df_pivot.columns:
-    plt.plot(df_pivot.index, df_pivot[ano], marker='o', linestyle='-', label=f'Ano {ano}')
+    plt.plot(df_pivot.index, df_pivot[ano], marker='o', linestyle='-', label=f'Ano {ano}', color=cores[ano - 2013])
 
 # Set the labels and title
 plt.xlabel('Mês')
