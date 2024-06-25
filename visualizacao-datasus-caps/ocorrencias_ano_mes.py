@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 UFMUN = 431020
-CID = 'F10'
+CID = 'F20'
 
 csv_dir = '/home/christian/Documentos/BIGDATA/ProjetoIntegrador-PSICOSSOCIAL/DADOS/CSV'
 files = os.listdir(csv_dir)
